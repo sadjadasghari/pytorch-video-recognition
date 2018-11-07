@@ -11,7 +11,7 @@ class Path(object):
             return root_dir, output_dir
         elif database == 'hmdb51':
             # folder that contains class labels
-            root_dir = '/data/Sadjad/Datasets/hmdb-51'
+            root_dir = '/data/Sadjad/Datasets/hmdb51/videos'
 
             output_dir = '/data/Sadjad/Datasets/hmdb51/pytorch-video-recognition-output/'
 
