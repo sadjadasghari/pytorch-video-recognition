@@ -34,8 +34,7 @@ def main():
     model.train()
 
     # read video
-    video = '/data/Sadjad/Datasets/hmdb51/videos/dribble/10YearOldYouthBasketballStarBaller_dribble_f_cm_np1_fr_med_7.avi'
-    #  '/data/Sadjad/Datasets/ucf101/UCF-101/Knitting/v_Knitting_g03_c05.avi'
+    video = '/data/Sadjad/Datasets/hmdb51/videos/Knitting/v_Knitting_g03_c05.avi'
     # '/data/Sadjad/Datasets/DALY/download_videos/videos/3\ WAYS\ OF\ APPLYING\ RED\ LIPSTICK\ l\ Pearltji-YCqSlzeFvn4.mp4'
     # '/data/Sadjad/Datasets/ucf101/UCF-101/StillRings/v_StillRings_g04_c02.avi'
     cap = cv2.VideoCapture(video)
