@@ -34,11 +34,22 @@ def main():
     model.train()
 
     # read video
-    video = '/data/Sadjad/Datasets/hmdb51/videos/dribble/10YearOldYouthBasketballStarBaller_dribble_f_cm_np1_fr_med_7.avi'
+    video = '/data/Sadjad/Datasets/ucf101/UCF-101/HandstandWalking/v_HandstandWalking_g22_c04.avi' # Haircut/v_Haircut_g03_c01.avi' # FrontCrawl/v_FrontCrawl_g07_c05.avi' # HulaHoop/v_HulaHoop_g02_c04.avi' # Biking/v_Biking_g06_c05.avi' # GolfSwing/v_GolfSwing_g11_c01.avi'
+    # hmdb51/videos/dive/Extreme_Cliffdiving_dive_f_cm_np1_le_bad_2.avi'
+    # ucf101/UCF-101/HighJump/v_HighJump_g07_c03.avi' # Skiing/v_Skiing_g09_c05.avi' # Archery/v_Archery_g01_c03.avi'
     #  '/data/Sadjad/Datasets/ucf101/UCF-101/Knitting/v_Knitting_g03_c05.avi'
     # '/data/Sadjad/Datasets/DALY/download_videos/videos/3\ WAYS\ OF\ APPLYING\ RED\ LIPSTICK\ l\ Pearltji-YCqSlzeFvn4.mp4'
     # '/data/Sadjad/Datasets/ucf101/UCF-101/StillRings/v_StillRings_g04_c02.avi'
+    # capwrite = cv2.VideoCapture()
     cap = cv2.VideoCapture(video)
+    fourcc = cv2.VideoWriter_fourcc(*'DIVX') # MJPG')
+    size = (
+	int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
+	int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+	)
+    out = cv2.VideoWriter('6.mp4',fourcc, 25, size)
+    # out = cv2.VideoWriter('output.avi',fourcc, 20.0, (640,480))
+    
     retaining = True
 
     clip = []
@@ -61,17 +72,19 @@ def main():
             probs = torch.nn.Softmax(dim=1)(outputs)
             label = torch.max(probs, 1)[1].detach().cpu().numpy()[0]
 
-            cv2.putText(frame, class_names[label].split(' ')[-1].strip(), (20, 20),
+            cv2.putText(frame, class_names[label].split(' ')[-1].strip(), (10, 210),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.8,
+                        (255, 0, 0), 1)
+            cv2.putText(frame, "acc: %.4f" % probs[0][label], (10, 230),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.6,
-                        (0, 0, 255), 1)
-            cv2.putText(frame, "prob: %.4f" % probs[0][label], (20, 40),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.6,
-                        (0, 0, 255), 1)
+                        (255, 0, 0), 1)
             clip.pop(0)
 
+        out.write(frame)
         cv2.imshow('result', frame)
-        cv2.waitKey(30)
+        #cv2.waitKey(30)
 
+    out.release()
     cap.release()
     cv2.destroyAllWindows()
 
